@@ -6,74 +6,74 @@
 
 User::User(string username, string password, int new_socket, int id) {
 	this->username = username;
-    	this->password = password;
-    	this->new_socket = new_socket;
-    	this->id = id;
-    	this->locations = {};
+	this->password = password;
+	this->new_socket = new_socket;
+	this->id = id;
+	this->locations = {};
 }
 
 User::User(){
-    	this->username = "";
-    	this->password = "";
-    	this->locations = {};
+	this->username = "";
+	this->password = "";
+	this->locations = {};
 }
 
 string User::getUsername(){
-    	return username;
+	return username;
 }
 
 string User::getPassword(){
-    	return password;
+	return password;
 }
 
 int User::getNewSocket() {
-    	return new_socket;
+	return new_socket;
 }
 
 int User::getId(){
-    	return id;
+	return id;
 }
 
 void User::setUsername(string username){
-    	this->username = username;
+	this->username = username;
 }
 
 void User::setPassword(string password) {
-    	this->password = password;
+	this->password = password;
 }
 
 void User::setNewSocket(int new_socket) {
-    	this->new_socket = new_socket;
+	this->new_socket = new_socket;
 }
 
 void User::setId(int id) {
-    	this->id = id;
+	this->id = id;
 }
 
 void User::subscribe(string location){
-    	this->locations.push_back(location);
+	this->locations.push_back(location);
 }
 
 vector<string> User::getLocations() {
-    	return locations;
+	return locations;
 }
 
 bool User::unsubscribe(string location) {
-    	auto it = find(locations.begin(), locations.end(), location);
-    	if (it == locations.end()) {
+	auto it = find(locations.begin(), locations.end(), location);
+	if (it == locations.end()) {
 		return false;
-    	}
-       	else {
+	}
+	else {
 		int index = std::distance(locations.begin(), it);
 		locations.erase(locations.begin() + index);
 		return true;
-    	}
+	}
 }
 
 string User::seeLocations() {
-    	string loc;
-    	for (unsigned int i = 0; i < locations.size(); i++) {
+	string loc;
+	for (unsigned int i = 0; i < locations.size(); i++) {
 		loc += to_string(i) + ": "+ locations[i] + "\n";
-    	}
-    	return loc;
+	}
+	return loc;
 }

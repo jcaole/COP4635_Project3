@@ -35,7 +35,7 @@ using namespace std;
 
 class Server{
 	public:       
-	       	mutex mtx;
+		mutex mtx;
 		int server_fd;
 		int new_socket;
 		int id;
@@ -43,18 +43,18 @@ class Server{
 		char receivingBuff[MAX];
 		struct sockaddr_in address;
 		int addrLen;
-        
+
 		vector<thread> threads;
 		vector<User> users;
 		int usersActive;
 		Server();
-        
+
 		bool loggedIn = false;
-        
+
 		bool Login(int new_socket, int id);
 
 		void Register(int new_socket);
-        
+
 		bool mainMenu(int new_socket, int id);
 
 		bool checkLogin(string username, string password);
@@ -63,12 +63,12 @@ class Server{
 		void subscribe(int new_socket, int id);
 
 		void unsubscribe(int new_socket, int id);
-	
+
 		void seeLocations(int new_socket, int id); 
-	
+
 		void changePassword(int new_socket, int id);        
 		void exitProgram(int new_socket, int id);
-	
+
 		void run(int socket, int id);
 };
 #endif //SERVER_HPP
