@@ -55,7 +55,7 @@ class Server{
 
 		void Register(int new_socket);
         
-		void mainMenu(int new_socket, int id);
+		bool mainMenu(int new_socket, int id);
 
 		bool checkLogin(string username, string password);
 		void optionsWhenLoggedIn(int new_socket);        

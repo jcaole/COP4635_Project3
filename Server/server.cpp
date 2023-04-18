@@ -49,7 +49,8 @@ void Server::run(int new_socket, int id){
     cout << "Connection accepted" << endl;
     cout << "Handler assigned" << endl;
     cout << "ID #" << id << endl;
-    mainMenu(new_socket, id);
+    bool connected = true;
+    connected = mainMenu(new_socket, id);
 
     while(loggedIn){
         memset(receivingBuff, 0, MAX);
@@ -77,10 +78,11 @@ void Server::run(int new_socket, int id){
                 }
             }
             usersActive--;
-            mainMenu(new_socket, id);
+            connected = mainMenu(new_socket, id);
         }
 	else if(strcmp(receivingBuff, "0") == 0) {
 		exitProgram(new_socket, id);
+        return;
 	}
 
 	else{
@@ -90,6 +92,9 @@ void Server::run(int new_socket, int id){
             write(new_socket, sendingBuff, (int)MAX);
             optionsWhenLoggedIn(new_socket);
         }
+    }
+    if(!connected){
+        return;
     }
 }
 
@@ -232,7 +237,7 @@ void Server::changePassword(int new_socket, int id) {
     mtx.unlock();
 }
 
-void Server::mainMenu(int new_socket, int id) {
+bool Server::mainMenu(int new_socket, int id) {
     memset(sendingBuff, 0, MAX);
     string firstOptions = "Welcome!\n Press 1 to Login\n  Press 2 to Register\n  Type \'exit\' to Quit\n";
     strcpy(sendingBuff, firstOptions.c_str());
@@ -242,7 +247,8 @@ void Server::mainMenu(int new_socket, int id) {
         memset(receivingBuff, 0, MAX);
         read(new_socket, receivingBuff, (size_t)MAX);
         if(strcmp(receivingBuff, "exit") == 0){
-            exit(EXIT_SUCCESS);
+            exitProgram(new_socket, id);
+            return false;
         }
         if(strcmp(receivingBuff, "1") == 0){
             if(Login(new_socket, id)){
@@ -260,6 +266,7 @@ void Server::mainMenu(int new_socket, int id) {
             mainMenu(new_socket, id);
         }
     }
+    return true;
 }
 
 bool Server::checkLogin(string username, string password) {
@@ -370,6 +377,10 @@ void Server::seeLocations(int new_socket, int id){
 }
 
 void Server::exitProgram(int new_socket, int id){
+    memset(sendingBuff, 0, MAX);
+    string message = "exit";
+    strcpy(sendingBuff, message.c_str());
+    write(new_socket, sendingBuff, (int)MAX);
     close(new_socket);
     loggedIn = false;
     for (size_t i = 0; i < users.size(); i++)
@@ -382,6 +393,6 @@ void Server::exitProgram(int new_socket, int id){
     }
     usersActive--;
     cout << "User " << id << " has exited the server." << endl;
-    exit(EXIT_SUCCESS);
+    //exit(EXIT_SUCCESS);
 }
 

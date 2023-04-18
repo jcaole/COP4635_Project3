@@ -6,7 +6,9 @@
 
 void sendMsg(int client_fd);
 void receiveMsg(int client_fd);
-
+bool exitClient = false;
+bool expectInput = true;
+mutex boolLock;
 int main(){
 
     Client c;
@@ -56,11 +58,13 @@ int main(){
     c.threadSending = move(t2);
 
 
-    if (c.threadReceiving.joinable())
+    //if (c.threadReceiving.joinable())
         c.threadReceiving.join();
+        cout << "Joined Recieving" << endl;
 
-    if (c.threadSending.joinable())
+    //if (c.threadSending.joinable())
         c.threadSending.join();
+        cout << "Joined Sending" << endl;
 
 
     return 0;
@@ -69,31 +73,46 @@ int main(){
 void receiveMsg(int client_fd) {
     Client c;
     while(true){
+        
         memset(c.receivingBuff, 0, MAX);
         int bytesReceived = read(client_fd, c.receivingBuff, MAX);
         if(bytesReceived <= 0){
             continue;
         }
+        boolLock.lock();
+        expectInput = true;
+        
+        
         cout << c.receivingBuff << endl;
         if(strcmp(c.receivingBuff, "exit") == 0){
-            c.exitClient = true;
-            c.threadReceiving.detach();
+            exitClient = true;
+            //c.threadReceiving.detach();
             close(client_fd);
+            expectInput = false;
+            boolLock.unlock();
             return;
         }
+        
     }
 }
 
 void sendMsg(int client_fd) {
     Client c;
     while(true){
-        if(c.exitClient){
-            c.threadSending.detach();
+        
+        if(exitClient){
+            cout << "attempting exit" << endl;
+           
             return;
         }
+        boolLock.lock();
+        if(expectInput){
         memset(c.sendingBuff, 0, MAX);
         cin.getline(c.sendingBuff, MAX);
         write(client_fd, c.sendingBuff, MAX);
+        expectInput = false;
+        }
+        boolLock.unlock();
     }
 }
 
