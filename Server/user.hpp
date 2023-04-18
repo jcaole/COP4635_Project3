@@ -10,30 +10,32 @@
 using namespace std;
 
 class User{
+	public:
+		User();        	    
+		User(string username, string password, int new_socket, int id);        	   
+	       	string username;        
+    		string password;        
+    		int new_socket;        
+    		int id;       
+    		string getUsername();        
+    		string getPassword();        
+    		int getNewSocket();
+		int getId();
+        
+		//setters
+		void setUsername(string username);
+		void setPassword(string password);
+		void setNewSocket(int new_socket);
+		void setId(int id);
 
-    public:
+		//sub/unsub features
+		void subscribe(string location);
+		bool unsubscribe(string location);
 
-        User();
-        User(string username, string password, int new_socket, int id);
-        string username;
-        string password;
-        int new_socket;
-        int id;
-        string getUsername();
-        string getPassword();
-        int getNewSocket();
-        int getId();
-        void setUsername(string username);
-        void setPassword(string password);
-        void setNewSocket(int new_socket);
-        void setId(int id);
-        void subscribe(string location);
-        bool unsubscribe(string location);
-        string seeLocations();
-        vector<string> getLocations();
-        vector<string> locations;
-        bool isActive = false;
+		//location feature
+		string seeLocations();
+		vector<string> getLocations();
+		vector<string> locations;
+		bool isActive = false;
 };
-
-
 #endif //USER_HPP

@@ -1,27 +1,30 @@
+/*
+ *
+ */
+
 #include "server.hpp"
 
 Server::Server() {
-    id = 0;
-    usersActive = 0;
-    addrLen = sizeof(address);
-    if ((server_fd = socket(AF_INET, SOCK_STREAM, 0)) == 0) {
-        perror("In socket");
-        exit(EXIT_FAILURE);
-    }
-    address.sin_family = AF_INET;
-    address.sin_addr.s_addr = INADDR_ANY;
-    address.sin_port = htons(PORT);
-
-    memset(address.sin_zero, '\0', sizeof address.sin_zero);
-    if (bind(server_fd, (struct sockaddr *)&address, sizeof(address))<0) {
-        perror("ERROR: bind if statement");
-        exit(EXIT_FAILURE);
-    }
-    cout << "bind done" << endl;
-    if (listen(server_fd, 10) < 0) {
-        perror("ERROR: listen if statement");
-        exit(EXIT_FAILURE);
-    }
+	id = 0;
+    	usersActive = 0;
+    	addrLen = sizeof(address);
+    	if ((server_fd = socket(AF_INET, SOCK_STREAM, 0)) == 0) {
+		perror("ERROR: first socket if statement");
+		exit(EXIT_FAILURE);
+	}
+    	address.sin_family = AF_INET;
+    	address.sin_addr.s_addr = INADDR_ANY;
+    	address.sin_port = htons(PORT);
+    	memset(address.sin_zero, '\0', sizeof address.sin_zero);
+    	if (bind(server_fd, (struct sockaddr *)&address, sizeof(address))<0) {
+		perror("ERROR: bind if statement");
+		exit(EXIT_FAILURE);
+    	}
+    	cout << "bind done" << endl;
+    	if (listen(server_fd, 10) < 0) {
+		perror("ERROR: listen if statement");
+		exit(EXIT_FAILURE);
+    	}
 
 
     while(true) {
@@ -122,7 +125,8 @@ bool Server::Login(int new_socket, int id) {
         strcpy(sendingBuff, logged.c_str());
         write(new_socket, sendingBuff, (int)MAX);
         return true;
-    }else{
+    }
+    else{
         return false;
     }
 
@@ -330,7 +334,7 @@ void Server::unsubscribe(int new_socket, int id){
 
 void Server::subscribe(int new_socket, int id){
     memset(sendingBuff, 0, MAX);
-    string locToSub = "Please enter a location to subscribe";
+    string locToSub = "Please enter a location you want to subscribe to:";
     strcpy(sendingBuff, locToSub.c_str());
     write(new_socket, sendingBuff, (int)MAX);
 
@@ -346,7 +350,7 @@ void Server::subscribe(int new_socket, int id){
     }
 
     memset(sendingBuff, 0, MAX);
-    locToSub = "Subscribed successfully";
+    locToSub = "Successfully Subscribed. Select an option";
     strcpy(sendingBuff, locToSub.c_str());
     write(new_socket, sendingBuff, (int)MAX);
     optionsWhenLoggedIn(new_socket);
@@ -377,7 +381,7 @@ void Server::exitProgram(int new_socket, int id){
         }
     }
     usersActive--;
-    cout << "User " << id << " has exited the program." << endl;
+    cout << "User " << id << " has exited the server." << endl;
     exit(EXIT_SUCCESS);
 }
 

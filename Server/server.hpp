@@ -32,46 +32,44 @@
 
 using namespace std;
 
+
 class Server{
+	public:       
+	       	mutex mtx;
+		int server_fd;
+		int new_socket;
+		int id;
+		char sendingBuff[MAX];
+		char receivingBuff[MAX];
+		struct sockaddr_in address;
+		int addrLen;
+        
+		vector<thread> threads;
+		vector<User> users;
+		int usersActive;
+		Server();
+        
+		bool loggedIn = false;
+        
+		bool Login(int new_socket, int id);
 
-    public:
-        mutex mtx;
-        int server_fd;
-        int new_socket;
-        int id;
-        char sendingBuff[MAX];
-        char receivingBuff[MAX];
-        struct sockaddr_in address;
-        int addrLen;
+		void Register(int new_socket);
         
-	vector<thread> threads;
-	vector<User> users;
-	int usersActive;
+		void mainMenu(int new_socket, int id);
 
-	Server();
-        
-	bool loggedIn = false;
-        
-	bool Login(int new_socket, int id);
-        void Register(int new_socket);
-        
-	void mainMenu(int new_socket, int id);
-        
-	bool checkLogin(string username, string password);
-        
-	void optionsWhenLoggedIn(int new_socket);
-        
-	void subscribe(int new_socket, int id);
-        void unsubscribe(int new_socket, int id);
+		bool checkLogin(string username, string password);
+		void optionsWhenLoggedIn(int new_socket);        
+
+		void subscribe(int new_socket, int id);
+
+		void unsubscribe(int new_socket, int id);
 	
-	void seeLocations(int new_socket, int id); 
+		void seeLocations(int new_socket, int id); 
 	
-	void changePassword(int new_socket, int id);
-        
-	void exitProgram(int new_socket, int id);
-
-	void run(int socket, int id);
-    };
-
+		void changePassword(int new_socket, int id);        
+		void exitProgram(int new_socket, int id);
+	
+		void run(int socket, int id);
+};
 #endif //SERVER_HPP
 
