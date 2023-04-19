@@ -29,17 +29,16 @@
 using namespace std;
 
 class Client{
-public:
-    //Client();
-    int client_fd;
-    char receivingBuff[MAX]{};
-    char sendingBuff[MAX]{};
-    int new_socket{};
-    struct sockaddr_in address{};
-    int addrLen{};
-    bool exitClient = false;
-    std::thread threadReceiving;
-    std::thread threadSending;
+	public:
+		int client_fd;
+		char receivingBuff[MAX]{};
+		char sendingBuff[MAX]{};
+		int new_socket{};
+		struct sockaddr_in address{};
+		int addrLen{};
+		bool exitClient = false;
+		std::thread threadReceiving;
+		std::thread threadSending;
 
 };
 

@@ -1,3 +1,10 @@
+/* File name:
+ * Course:
+ * Project:
+ * Author:
+ * Description:
+ */
+
 #ifndef USER_HPP
 #define USER_HPP
 #include<iostream>
@@ -13,15 +20,15 @@ class User{
 	public:
 		User();        	    
 		User(string username, string password, int new_socket, int id);        	   
-	       	string username;        
-    		string password;        
-    		int new_socket;        
-    		int id;       
-    		string getUsername();        
-    		string getPassword();        
-    		int getNewSocket();
+		string username;        
+		string password;        
+		int new_socket;        
+		int id;       
+		string getUsername();        
+		string getPassword();        
+		int getNewSocket();
 		int getId();
-        
+
 		//setters
 		void setUsername(string username);
 		void setPassword(string password);
