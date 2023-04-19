@@ -1,5 +1,8 @@
-/*
- *
+/* file name: 	main.cpp
+ * course:	COP4635
+ * project:	3, part 1
+ * Author:	jeremy caole, kevin teague
+ * Description: client-side
  */
 #include "client.hpp"
 

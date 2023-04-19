@@ -1,5 +1,8 @@
-/*
- *
+/* file name: client.hpp
+ * course: COP4635
+ * Project: 3, part1
+ * Author: Jeremy Caole, Kevin Teague
+ * Description: header file for client class
  */
 
 #ifndef CLIENT_HPP
